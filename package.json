@@ -1,0 +1,13 @@
+{
+  "name": "rlnt_sinusscripts",
+  "version": "0.0.0",
+  "description": "Just a small collection of scripts for the Sinus Bot made by RLNT.",
+  "author": "RLNT",
+  "license": "Unlicense",
+  "devDependencies": {
+    "eslint-plugin-promise": "^4.0.1"
+  },
+  "dependencies": {
+    "sinusbot-scripting-engine": "^1.0.4"
+  }
+}
