@@ -512,7 +512,7 @@ function (SinusBot, config) {
               }
             }
           } else if (toCheck.addOnAddCondition == 2) {
-            triggerGroup = makeArray(toCheck.addOnAddGroupsSingle)
+            triggerGroup = toCheck.addOnAddGroupsSingle
             if (groupID === triggerGroup) {
               if (!oklib.client.isMemberOfAll(user, mainGroup)) {
                 oklib.client.addToGroups(user, mainGroup)
@@ -546,7 +546,7 @@ function (SinusBot, config) {
               }
             }
           } else if (toCheck.removeOnAddCondition == 2) {
-            triggerGroup = makeArray(toCheck.removeOnAddGroupsSingle)
+            triggerGroup = toCheck.removeOnAddGroupsSingle
             if (groupID === triggerGroup) {
               if (oklib.client.isMemberOfOne(user, mainGroup)) {
                 oklib.client.removeFromGroups(user, mainGroup)
@@ -587,7 +587,7 @@ function (SinusBot, config) {
               }
             }
           } else if (toCheck.addOnRemoveCondition == 2) {
-            triggerGroup = makeArray(toCheck.addOnRemoveGroupsSingle)
+            triggerGroup = toCheck.addOnRemoveGroupsSingle
             if (groupID === triggerGroup) {
               if (!oklib.client.isMemberOfAll(user, mainGroup)) {
                 oklib.client.addToGroups(user, mainGroup)
@@ -621,7 +621,7 @@ function (SinusBot, config) {
               }
             }
           } else if (toCheck.removeOnRemoveCondition == 2) {
-            triggerGroup = makeArray(toCheck.removeOnRemoveGroupsSingle)
+            triggerGroup = toCheck.removeOnRemoveGroupsSingle
             if (groupID === triggerGroup) {
               if (oklib.client.isMemberOfOne(user, mainGroup)) {
                 oklib.client.removeFromGroups(user, mainGroup)
