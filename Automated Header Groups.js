@@ -83,7 +83,7 @@ function (SinusBot, config) {
 
     /* GLOBAL VARIABLES */
     var groups = config.groupArray
-    var loggingEnabled = config.loggingEnabled === 1
+    var loggingEnabled = config.loggingEnabled == 0
 
     /* FUNCTIONS */
     function makeArray (input) {
