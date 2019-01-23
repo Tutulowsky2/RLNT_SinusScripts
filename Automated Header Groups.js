@@ -52,18 +52,18 @@ registerPlugin({
 
 function (SinusBot, config) {
 
-  // Dependency Variables
+  /* DEPENDENCY VARIABLES */
   var engine = require('engine')
   var backend = require('backend')
   var event = require('event')
 
-  // Loading Event
+  /* LOADING EVENT */
   event.on('load', function () {
 
-    // Dependencies
+    /* DEPENDENCIES */
     var oklib = require('OKlib.js')
 
-    // Error Check
+    /* ERROR CHECK */
     if (!oklib) {
       engine.log('[RLNT] AHG > OKlib wasn\'t found!')
       engine.log('[RLNT] AHG > Install the OKlib or the script is disabled!')
@@ -71,17 +71,17 @@ function (SinusBot, config) {
       return
     }
 
-    // Execute Main Function
+    /* EXECUTE MAIN FUNCTION */
     RLNT_AHG(oklib)
   })
 
-  // Main Function
+  /* MAIN FUNCTION */
   function RLNT_AHG (oklib) {
 
-    // Loaded Log
+    /* LOADED */
     engine.log('[RLNT] AHG > The script loaded successfully!')
 
-    // Global Variables
+    /* GLOBAL VARIABLES */
     var groups = config.groupArray
     var loggingEnabled = config.loggingEnabled === 1
 
@@ -109,7 +109,7 @@ function (SinusBot, config) {
       }
     })
 
-    // Group Remove Event
+    /* GROUP REMOVING EVENT */
     event.on('serverGroupRemoved', function (RLNT) {
       var user = RLNT.client
       var groupID = RLNT.serverGroup.id()
