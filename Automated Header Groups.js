@@ -12,7 +12,7 @@ registerPlugin({
   name: 'Automated Header Groups',
   author: 'RLNT <RLNT@damn-community.com>',
   description: 'With this script, the bot will automatically assign or remove header groups if the client has at least one of the corresponding trigger groups.',
-  version: '1.0.1',
+  version: '1.0.2',
   backends: ['ts3'],
   vars: [
     {
@@ -83,7 +83,7 @@ function (SinusBot, config) {
 
     /* GLOBAL VARIABLES */
     var groups = config.groupArray
-    var loggingEnabled = config.loggingEnabled === 1
+    var loggingEnabled = config.loggingEnabled == 0
 
     /* FUNCTIONS */
     function makeArray (input) {
