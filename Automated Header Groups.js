@@ -85,7 +85,28 @@ function (SinusBot, config) {
     var groups = config.groupArray
     var loggingEnabled = config.loggingEnabled === 1
 
-    // Group Adding Event
+    /* FUNCTIONS */
+    function makeArray (input) {
+      var output = input
+      if (!Array.isArray(output)) {
+        output = [output]
+      }
+      return output
+    }
+
+    function logGroupAdd (user, input) {
+      if (loggingEnabled) {
+        engine.log('[RLNT] AHG > Client \'' + user.name() + '\' was added to the header group \'' + backend.getServerGroupByID(input).name + '\'.')
+      }
+    }
+
+    function logGroupRemove(user, input) {
+      if (loggingEnabled) {
+        engine.log('[RLNT] AHG > Client \'' + user.name() + '\' was removed from the header group \'' + backend.getServerGroupByID(input).name + '\'.')
+      }
+    }
+
+    /* GROUP ADDING EVENT */
     event.on('serverGroupAdded', function (RLNT) {
       var user = RLNT.client
       var groupID = RLNT.serverGroup.id()
