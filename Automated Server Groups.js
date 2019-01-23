@@ -428,7 +428,6 @@ function (SinusBot, config) {
     var groupAddArray = config.groupAddArray
     var groupRemoveArray = config.groupRemoveArray
     var loggingEnabled = config.loggingEnabled
-    var debugEnabled = config.debugEnabled
 
     /* FUNCTIONS */
     function makeArray (input) {
