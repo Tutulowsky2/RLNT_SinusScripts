@@ -12,7 +12,7 @@ registerPlugin({
   name: 'Automated Server Groups',
   author: 'RLNT <RLNT@damn-community.com>',
   description: 'With this script, the bot will automatically assign or remove groups if the client gets or is removed from a servergroup.',
-  version: '1.1.0',
+  version: '1.1.1',
   backends: ['ts3'],
   vars: [
     {
@@ -428,7 +428,6 @@ function (SinusBot, config) {
     var groupAddArray = config.groupAddArray
     var groupRemoveArray = config.groupRemoveArray
     var loggingEnabled = config.loggingEnabled
-    var debugEnabled = config.debugEnabled
 
     /* FUNCTIONS */
     function makeArray (input) {
@@ -498,7 +497,7 @@ function (SinusBot, config) {
         if (toCheck.onWhatAdd == 0) {
           if (toCheck.addOnAddCondition == 0) {
             triggerGroup = makeArray(toCheck.addOnAddGroupsAll)
-            if ((triggerGroup.indexOf(groupID) != -1) && (oklib.client.isMemberOfAll(user, triggerGroup))) {
+            if ((triggerGroup.indexOf(groupID) > -1) && (oklib.client.isMemberOfAll(user, triggerGroup))) {
               if (!oklib.client.isMemberOfAll(user, mainGroup)) {
                 oklib.client.addToGroups(user, mainGroup)
                 logGroupAdd(user, mainGroup)
@@ -506,14 +505,14 @@ function (SinusBot, config) {
             }
           } else if (toCheck.addOnAddCondition == 1) {
             triggerGroup = makeArray(toCheck.addOnAddGroupsOne)
-            if (triggerGroup.indexOf(groupID) != -1) {
+            if (triggerGroup.indexOf(groupID) > -1) {
               if (!oklib.client.isMemberOfAll(user, mainGroup)) {
                 oklib.client.addToGroups(user, mainGroup)
                 logGroupAdd(user, mainGroup)
               }
             }
           } else if (toCheck.addOnAddCondition == 2) {
-            triggerGroup = makeArray(toCheck.addOnAddGroupsSingle)
+            triggerGroup = toCheck.addOnAddGroupsSingle
             if (groupID === triggerGroup) {
               if (!oklib.client.isMemberOfAll(user, mainGroup)) {
                 oklib.client.addToGroups(user, mainGroup)
@@ -532,7 +531,7 @@ function (SinusBot, config) {
         if (toCheck.onWhatRemove == 0) {
           if (toCheck.removeOnAddCondition == 0) {
             triggerGroup = makeArray(toCheck.removeOnAddGroupsAll)
-            if ((triggerGroup.indexOf(groupID) != -1) && (oklib.client.isMemberOfAll(user, triggerGroup))) {
+            if ((triggerGroup.indexOf(groupID) > -1) && (oklib.client.isMemberOfAll(user, triggerGroup))) {
               if (oklib.client.isMemberOfOne(user, mainGroup)) {
                 oklib.client.removeFromGroups(user, mainGroup)
                 logGroupRemove(user, mainGroup)
@@ -540,14 +539,14 @@ function (SinusBot, config) {
             }
           } else if (toCheck.removeOnAddCondition == 1) {
             triggerGroup = makeArray(toCheck.removeOnAddGroupsOne)
-            if (triggerGroup.indexOf(groupID) != -1) {
+            if (triggerGroup.indexOf(groupID) > -1) {
               if (oklib.client.isMemberOfOne(user, mainGroup)) {
                 oklib.client.removeFromGroups(user, mainGroup)
                 logGroupRemove(user, mainGroup)
               }
             }
           } else if (toCheck.removeOnAddCondition == 2) {
-            triggerGroup = makeArray(toCheck.removeOnAddGroupsSingle)
+            triggerGroup = toCheck.removeOnAddGroupsSingle
             if (groupID === triggerGroup) {
               if (oklib.client.isMemberOfOne(user, mainGroup)) {
                 oklib.client.removeFromGroups(user, mainGroup)
@@ -573,7 +572,7 @@ function (SinusBot, config) {
         if (toCheck.onWhatAdd == 1) {
           if (toCheck.addOnRemoveCondition == 0) {
             triggerGroup = makeArray(toCheck.addOnRemoveGroupsAll)
-            if ((triggerGroup.indexOf(groupID) != -1) && (!oklib.client.isMemberOfOne(user, triggerGroup))) {
+            if ((triggerGroup.indexOf(groupID) > -1) && (!oklib.client.isMemberOfOne(user, triggerGroup))) {
               if (!oklib.client.isMemberOfAll(user, mainGroup)) {
                 oklib.client.addToGroups(user, mainGroup)
                 logGroupAdd(user, mainGroup)
@@ -581,14 +580,14 @@ function (SinusBot, config) {
             }
           } else if (toCheck.addOnRemoveCondition == 1) {
             triggerGroup = makeArray(toCheck.addOnRemoveGroupsOne)
-            if (triggerGroup.indexOf(groupID) != -1) {
+            if (triggerGroup.indexOf(groupID) > -1) {
               if (!oklib.client.isMemberOfAll(user, mainGroup)) {
                 oklib.client.addToGroups(user, mainGroup)
                 logGroupAdd(user, mainGroup)
               }
             }
           } else if (toCheck.addOnRemoveCondition == 2) {
-            triggerGroup = makeArray(toCheck.addOnRemoveGroupsSingle)
+            triggerGroup = toCheck.addOnRemoveGroupsSingle
             if (groupID === triggerGroup) {
               if (!oklib.client.isMemberOfAll(user, mainGroup)) {
                 oklib.client.addToGroups(user, mainGroup)
@@ -607,7 +606,7 @@ function (SinusBot, config) {
         if (toCheck.onWhatRemove == 1) {
           if (toCheck.removeOnRemoveCondition == 0) {
             triggerGroup = makeArray(toCheck.removeOnRemoveGroupsAll)
-            if ((triggerGroup.indexOf(groupID) != -1) && (!oklib.client.isMemberOfOne(user, triggerGroup))) {
+            if ((triggerGroup.indexOf(groupID) > -1) && (!oklib.client.isMemberOfOne(user, triggerGroup))) {
               if (oklib.client.isMemberOfOne(user, mainGroup)) {
                 oklib.client.removeFromGroups(user, mainGroup)
                 logGroupRemove(user, mainGroup)
@@ -615,14 +614,14 @@ function (SinusBot, config) {
             }
           } else if (toCheck.removeOnRemoveCondition == 1) {
             triggerGroup = makeArray(toCheck.removeOnRemoveGroupsOne)
-            if (triggerGroup.indexOf(groupID) != -1) {
+            if (triggerGroup.indexOf(groupID) > -1) {
               if (oklib.client.isMemberOfOne(user, mainGroup)) {
                 oklib.client.removeFromGroups(user, mainGroup)
                 logGroupRemove(user, mainGroup)
               }
             }
           } else if (toCheck.removeOnRemoveCondition == 2) {
-            triggerGroup = makeArray(toCheck.removeOnRemoveGroupsSingle)
+            triggerGroup = toCheck.removeOnRemoveGroupsSingle
             if (groupID === triggerGroup) {
               if (oklib.client.isMemberOfOne(user, mainGroup)) {
                 oklib.client.removeFromGroups(user, mainGroup)
