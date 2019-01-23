@@ -25,14 +25,42 @@ registerPlugin({
       type: 'array',
       vars: [
         {
+          name: 'multipleGroupsToAdd',
+          title: 'Should multiple groups be added or just a single one? (*)',
+          indent: 1,
+          type: 'select',
+          options: [
+            'Multiple',
+            'Single'
+          ]
+        },
+        {
+          name: 'groupsToAdd',
+          title: 'Groups to add (*)',
+          indent: 1,
+          type: 'strings',
+          conditions: [
+            {
+              field: 'multipleGroupsToAdd',
+              value: 0
+            }
+          ]
+        },
+        {
           name: 'groupToAdd',
           title: 'Group to add (*)',
           indent: 1,
-          type: 'string'
+          type: 'string',
+          conditions: [
+            {
+              field: 'multipleGroupsToAdd',
+              value: 1
+            }
+          ]
         },
         {
           name: 'onWhatAdd',
-          title: 'Should the group be added on adding or removing other groups? (*)',
+          title: 'Should the group(s) be added on adding or removing other groups? (*)',
           indent: 1,
           type: 'select',
           options: [
@@ -59,7 +87,7 @@ registerPlugin({
         },
         {
           name: 'addOnAddGroupsAll',
-          title: 'What groups have to be added to get the defined group? (*)',
+          title: 'What groups have to be added to get the defined group(s)? (*)',
           indent: 3,
           type: 'strings',
           conditions: [
@@ -75,7 +103,7 @@ registerPlugin({
         },
         {
           name: 'addOnAddGroupsOne',
-          title: 'One out of which groups has to be added to get the defined group? (*)',
+          title: 'One out of which groups has to be added to get the defined group(s)? (*)',
           indent: 3,
           type: 'strings',
           conditions: [
@@ -91,7 +119,7 @@ registerPlugin({
         },
         {
           name: 'addOnAddGroupsSingle',
-          title: 'What group has to be added to get the defined group? (*)',
+          title: 'What group has to be added to get the defined group(s)? (*)',
           indent: 3,
           type: 'string',
           conditions: [
@@ -107,7 +135,7 @@ registerPlugin({
         },
         {
           name: 'addOnRemoveCondition',
-          title: 'Are they all needed to get the new group or just one of them? (*)',
+          title: 'Are they all needed to get the new group(s) or just one of them? (*)',
           indent: 2,
           type: 'select',
           options: [
@@ -124,7 +152,7 @@ registerPlugin({
         },
         {
           name: 'addOnRemoveGroupsAll',
-          title: 'What groups have to be removed to get the defined group? (*)',
+          title: 'What groups have to be removed to get the defined group(s)? (*)',
           indent: 3,
           type: 'strings',
           conditions: [
@@ -140,7 +168,7 @@ registerPlugin({
         },
         {
           name: 'addOnRemoveGroupsOne',
-          title: 'One out of which groups has to be removed to get the defined group? (*)',
+          title: 'One out of which groups has to be removed to get the defined group(s)? (*)',
           indent: 3,
           type: 'strings',
           conditions: [
@@ -156,7 +184,7 @@ registerPlugin({
         },
         {
           name: 'addOnRemoveGroupsSingle',
-          title: 'What group has to be removed to get the defined group? (*)',
+          title: 'What group has to be removed to get the defined group(s)? (*)',
           indent: 3,
           type: 'string',
           conditions: [
@@ -178,14 +206,42 @@ registerPlugin({
       type: 'array',
       vars: [
         {
+          name: 'multipleGroupsToRemove',
+          title: 'Should multiple groups be removed or just a single one? (*)',
+          indent: 1,
+          type: 'select',
+          options: [
+            'Multiple',
+            'Single'
+          ]
+        },
+        {
+          name: 'groupsToRemove',
+          title: 'Groups to remove (*)',
+          indent: 1,
+          type: 'strings',
+          conditions: [
+            {
+              field: 'multipleGroupsToRemove',
+              value: 0
+            }
+          ]
+        },
+        {
           name: 'groupToRemove',
           title: 'Group to remove (*)',
           indent: 1,
-          type: 'string'
+          type: 'string',
+          conditions: [
+            {
+              field: 'multipleGroupsToRemove',
+              value: 1
+            }
+          ]
         },
         {
           name: 'onWhatRemove',
-          title: 'Should the group be removed on adding or removing other groups? (*)',
+          title: 'Should the group(s) be removed on adding or removing other groups? (*)',
           indent: 1,
           type: 'select',
           options: [
@@ -195,7 +251,7 @@ registerPlugin({
         },
         {
           name: 'removeOnAddCondition',
-          title: 'Do they all have to be added to lose the defined group or just one of them? (*)',
+          title: 'Do they all have to be added to lose the defined group(s) or just one of them? (*)',
           indent: 2,
           type: 'select',
           options: [
@@ -212,7 +268,7 @@ registerPlugin({
         },
         {
           name: 'removeOnAddGroupsAll',
-          title: 'What groups have to be added to lose the defined group? (*)',
+          title: 'What groups have to be added to lose the defined group(s)? (*)',
           indent: 3,
           type: 'strings',
           conditions: [
@@ -228,7 +284,7 @@ registerPlugin({
         },
         {
           name: 'removeOnAddGroupsOne',
-          title: 'One out of which groups has to be added to lose the defined group? (*)',
+          title: 'One out of which groups has to be added to lose the defined group(s)? (*)',
           indent: 3,
           type: 'strings',
           conditions: [
@@ -244,7 +300,7 @@ registerPlugin({
         },
         {
           name: 'removeOnAddGroupsSingle',
-          title: 'What group has to be added to lose the defined group? (*)',
+          title: 'What group has to be added to lose the defined group(s)? (*)',
           indent: 3,
           type: 'string',
           conditions: [
@@ -260,7 +316,7 @@ registerPlugin({
         },
         {
           name: 'removeOnRemoveCondition',
-          title: 'Are they all needed to remove the defined group or just one of them? (*)',
+          title: 'Are they all needed to remove the defined group(s) or just one of them? (*)',
           indent: 2,
           type: 'select',
           options: [
@@ -277,7 +333,7 @@ registerPlugin({
         },
         {
           name: 'removeOnRemoveGroupsAll',
-          title: 'What groups have to be removed to lose the defined group? (*)',
+          title: 'What groups have to be removed to lose the defined group(s)? (*)',
           indent: 3,
           type: 'strings',
           conditions: [
@@ -293,7 +349,7 @@ registerPlugin({
         },
         {
           name: 'removeOnRemoveGroupsOne',
-          title: 'One out of which groups has to be removed to lose the defined group? (*)',
+          title: 'One out of which groups has to be removed to lose the defined group(s)? (*)',
           indent: 3,
           type: 'strings',
           conditions: [
@@ -309,7 +365,7 @@ registerPlugin({
         },
         {
           name: 'removeOnRemoveGroupsSingle',
-          title: 'What group has to be removed to lose the defined group? (*)',
+          title: 'What group has to be removed to lose the defined group(s)? (*)',
           indent: 3,
           type: 'string',
           conditions: [
