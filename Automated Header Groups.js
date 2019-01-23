@@ -12,7 +12,7 @@ registerPlugin({
   name: 'Automated Header Groups',
   author: 'RLNT <RLNT@damn-community.com>',
   description: 'With this script, the bot will automatically assign or remove header groups if the client has at least one of the corresponding trigger groups.',
-  version: '1.0.0',
+  version: '1.0.1',
   backends: ['ts3'],
   vars: [
     {
@@ -52,18 +52,18 @@ registerPlugin({
 
 function (SinusBot, config) {
 
-  // Dependency Variables
+  /* DEPENDENCY VARIABLES */
   var engine = require('engine')
   var backend = require('backend')
   var event = require('event')
 
-  // Loading Event
+  /* LOADING EVENT */
   event.on('load', function () {
 
-    // Dependencies
+    /* DEPENDENCIES */
     var oklib = require('OKlib.js')
 
-    // Error Check
+    /* ERROR CHECK */
     if (!oklib) {
       engine.log('[RLNT] AHG > OKlib wasn\'t found!')
       engine.log('[RLNT] AHG > Install the OKlib or the script is disabled!')
@@ -71,21 +71,42 @@ function (SinusBot, config) {
       return
     }
 
-    // Execute Main Function
+    /* EXECUTE MAIN FUNCTION */
     RLNT_AHG(oklib)
   })
 
-  // Main Function
+  /* MAIN FUNCTION */
   function RLNT_AHG (oklib) {
 
-    // Loaded Log
+    /* LOADED */
     engine.log('[RLNT] AHG > The script loaded successfully!')
 
-    // Global Variables
+    /* GLOBAL VARIABLES */
     var groups = config.groupArray
     var loggingEnabled = config.loggingEnabled === 1
 
-    // Group Adding Event
+    /* FUNCTIONS */
+    function makeArray (input) {
+      var output = input
+      if (!Array.isArray(output)) {
+        output = [output]
+      }
+      return output
+    }
+
+    function logGroupAdd (user, input) {
+      if (loggingEnabled) {
+        engine.log('[RLNT] AHG > Client \'' + user.name() + '\' was added to the header group \'' + backend.getServerGroupByID(input).name + '\'.')
+      }
+    }
+
+    function logGroupRemove(user, input) {
+      if (loggingEnabled) {
+        engine.log('[RLNT] AHG > Client \'' + user.name() + '\' was removed from the header group \'' + backend.getServerGroupByID(input).name + '\'.')
+      }
+    }
+
+    /* GROUP ADDING EVENT */
     event.on('serverGroupAdded', function (RLNT) {
       var user = RLNT.client
       var groupID = RLNT.serverGroup.id()
@@ -93,23 +114,18 @@ function (SinusBot, config) {
       for (var i in groups) {
         var toCheck = groups[i]
         var headerGroup = toCheck.headerGroup
-        var triggerGroup = toCheck.triggerGroup
+        var triggerGroup = makeArray(toCheck.triggerGroup)
 
-        if (!Array.isArray(triggerGroup)) {
-          triggerGroup = [triggerGroup];
-        }
-        if (triggerGroup.indexOf(groupID) != -1) {
+        if (triggerGroup.indexOf(groupID) > -1) {
           if (!oklib.client.isMemberOfGroup(user, headerGroup)) {
             user.addToServerGroup(headerGroup)
-            if (loggingEnabled) {
-              engine.log('[RLNT] AHG > Client \'' + user.name() + '\' was added to the header group \'' + backend.getServerGroupByID(headerGroup).name() + '\'.')
-            }
+            logGroupAdd(user, headerGroup)
           }
         }
       }
     })
 
-    // Group Remove Event
+    /* GROUP REMOVING EVENT */
     event.on('serverGroupRemoved', function (RLNT) {
       var user = RLNT.client
       var groupID = RLNT.serverGroup.id()
@@ -117,18 +133,13 @@ function (SinusBot, config) {
       for (var i in groups) {
         var toCheck = groups[i]
         var headerGroup = toCheck.headerGroup
-        var triggerGroup = toCheck.triggerGroup
+        var triggerGroup = makeArray(toCheck.triggerGroup)
 
-        if (!Array.isArray(triggerGroup)) {
-          triggerGroup = [triggerGroup];
-        }
-        if (triggerGroup.indexOf(groupID) != -1) {
+        if (triggerGroup.indexOf(groupID) > -1) {
           if (!oklib.client.isMemberOfOne(user, triggerGroup)) {
             if (oklib.client.isMemberOfGroup(user, headerGroup)) {
               user.removeFromServerGroup(headerGroup)
-              if (loggingEnabled) {
-                engine.log('[RLNT] AHG > Client \'' + user.name() + '\' was removed from the header group \'' + backend.getServerGroupByID(headerGroup).name() + '\'.')
-              }
+              logGroupRemove(user, headerGroup)
             }
           }
         }
