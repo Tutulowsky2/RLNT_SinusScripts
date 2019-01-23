@@ -114,17 +114,12 @@ function (SinusBot, config) {
       for (var i in groups) {
         var toCheck = groups[i]
         var headerGroup = toCheck.headerGroup
-        var triggerGroup = toCheck.triggerGroup
+        var triggerGroup = makeArray(toCheck.triggerGroup)
 
-        if (!Array.isArray(triggerGroup)) {
-          triggerGroup = [triggerGroup];
-        }
-        if (triggerGroup.indexOf(groupID) != -1) {
+        if (triggerGroup.indexOf(groupID) > -1) {
           if (!oklib.client.isMemberOfGroup(user, headerGroup)) {
             user.addToServerGroup(headerGroup)
-            if (loggingEnabled) {
-              engine.log('[RLNT] AHG > Client \'' + user.name() + '\' was added to the header group \'' + backend.getServerGroupByID(headerGroup).name() + '\'.')
-            }
+            logGroupAdd(user, headerGroup)
           }
         }
       }
@@ -138,18 +133,13 @@ function (SinusBot, config) {
       for (var i in groups) {
         var toCheck = groups[i]
         var headerGroup = toCheck.headerGroup
-        var triggerGroup = toCheck.triggerGroup
+        var triggerGroup = makeArray(toCheck.triggerGroup)
 
-        if (!Array.isArray(triggerGroup)) {
-          triggerGroup = [triggerGroup];
-        }
-        if (triggerGroup.indexOf(groupID) != -1) {
+        if (triggerGroup.indexOf(groupID) > -1) {
           if (!oklib.client.isMemberOfOne(user, triggerGroup)) {
             if (oklib.client.isMemberOfGroup(user, headerGroup)) {
               user.removeFromServerGroup(headerGroup)
-              if (loggingEnabled) {
-                engine.log('[RLNT] AHG > Client \'' + user.name() + '\' was removed from the header group \'' + backend.getServerGroupByID(headerGroup).name() + '\'.')
-              }
+              logGroupRemove(user, headerGroup)
             }
           }
         }
