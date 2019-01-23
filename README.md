@@ -5,10 +5,10 @@ This is just  a collection of some scripts made by RLNT to give useful features 
 Feel free to use them if you want.
 
 Currently included:
-- Automated Header Groups v1.0.1
+- Automated Header Groups v1.0.2
   - can assign a header group when one of the trigger groups was assigned
   - can remove the header group when all of the trigger groups are removed
-- Automated Server Groups v1.1.1
+- Automated Server Groups v1.1.2
   - can assign a server group when another servergroup is assigned or removed
   - can remove a server group when another servergroup is assigned or removed
   - can also check for multiple groups (either all are needed or just one out of a given array)
