@@ -12,7 +12,7 @@ registerPlugin({
   name: 'Automated Server Groups',
   author: 'RLNT <RLNT@damn-community.com>',
   description: 'With this script, the bot will automatically assign or remove groups if the client gets or is removed from a servergroup.',
-  version: '1.0.0',
+  version: '1.1.0',
   backends: ['ts3'],
   vars: [
     {
@@ -25,14 +25,42 @@ registerPlugin({
       type: 'array',
       vars: [
         {
+          name: 'multipleGroupsToAdd',
+          title: 'Should multiple groups be added or just a single one? (*)',
+          indent: 1,
+          type: 'select',
+          options: [
+            'Multiple',
+            'Single'
+          ]
+        },
+        {
+          name: 'groupsToAdd',
+          title: 'Groups to add (*)',
+          indent: 1,
+          type: 'strings',
+          conditions: [
+            {
+              field: 'multipleGroupsToAdd',
+              value: 0
+            }
+          ]
+        },
+        {
           name: 'groupToAdd',
           title: 'Group to add (*)',
           indent: 1,
-          type: 'string'
+          type: 'string',
+          conditions: [
+            {
+              field: 'multipleGroupsToAdd',
+              value: 1
+            }
+          ]
         },
         {
           name: 'onWhatAdd',
-          title: 'Should the group be added on adding or removing other groups? (*)',
+          title: 'Should the group(s) be added on adding or removing other groups? (*)',
           indent: 1,
           type: 'select',
           options: [
@@ -59,7 +87,7 @@ registerPlugin({
         },
         {
           name: 'addOnAddGroupsAll',
-          title: 'What groups have to be added to get the defined group? (*)',
+          title: 'What groups have to be added to get the defined group(s)? (*)',
           indent: 3,
           type: 'strings',
           conditions: [
@@ -75,7 +103,7 @@ registerPlugin({
         },
         {
           name: 'addOnAddGroupsOne',
-          title: 'One out of which groups has to be added to get the defined group? (*)',
+          title: 'One out of which groups has to be added to get the defined group(s)? (*)',
           indent: 3,
           type: 'strings',
           conditions: [
@@ -91,7 +119,7 @@ registerPlugin({
         },
         {
           name: 'addOnAddGroupsSingle',
-          title: 'What group has to be added to get the defined group? (*)',
+          title: 'What group has to be added to get the defined group(s)? (*)',
           indent: 3,
           type: 'string',
           conditions: [
@@ -107,7 +135,7 @@ registerPlugin({
         },
         {
           name: 'addOnRemoveCondition',
-          title: 'Are they all needed to get the new group or just one of them? (*)',
+          title: 'Are they all needed to get the new group(s) or just one of them? (*)',
           indent: 2,
           type: 'select',
           options: [
@@ -124,7 +152,7 @@ registerPlugin({
         },
         {
           name: 'addOnRemoveGroupsAll',
-          title: 'What groups have to be removed to get the defined group? (*)',
+          title: 'What groups have to be removed to get the defined group(s)? (*)',
           indent: 3,
           type: 'strings',
           conditions: [
@@ -140,7 +168,7 @@ registerPlugin({
         },
         {
           name: 'addOnRemoveGroupsOne',
-          title: 'One out of which groups has to be removed to get the defined group? (*)',
+          title: 'One out of which groups has to be removed to get the defined group(s)? (*)',
           indent: 3,
           type: 'strings',
           conditions: [
@@ -156,7 +184,7 @@ registerPlugin({
         },
         {
           name: 'addOnRemoveGroupsSingle',
-          title: 'What group has to be removed to get the defined group? (*)',
+          title: 'What group has to be removed to get the defined group(s)? (*)',
           indent: 3,
           type: 'string',
           conditions: [
@@ -178,14 +206,42 @@ registerPlugin({
       type: 'array',
       vars: [
         {
+          name: 'multipleGroupsToRemove',
+          title: 'Should multiple groups be removed or just a single one? (*)',
+          indent: 1,
+          type: 'select',
+          options: [
+            'Multiple',
+            'Single'
+          ]
+        },
+        {
+          name: 'groupsToRemove',
+          title: 'Groups to remove (*)',
+          indent: 1,
+          type: 'strings',
+          conditions: [
+            {
+              field: 'multipleGroupsToRemove',
+              value: 0
+            }
+          ]
+        },
+        {
           name: 'groupToRemove',
           title: 'Group to remove (*)',
           indent: 1,
-          type: 'string'
+          type: 'string',
+          conditions: [
+            {
+              field: 'multipleGroupsToRemove',
+              value: 1
+            }
+          ]
         },
         {
           name: 'onWhatRemove',
-          title: 'Should the group be removed on adding or removing other groups? (*)',
+          title: 'Should the group(s) be removed on adding or removing other groups? (*)',
           indent: 1,
           type: 'select',
           options: [
@@ -195,7 +251,7 @@ registerPlugin({
         },
         {
           name: 'removeOnAddCondition',
-          title: 'Do they all have to be added to lose the defined group or just one of them? (*)',
+          title: 'Do they all have to be added to lose the defined group(s) or just one of them? (*)',
           indent: 2,
           type: 'select',
           options: [
@@ -212,7 +268,7 @@ registerPlugin({
         },
         {
           name: 'removeOnAddGroupsAll',
-          title: 'What groups have to be added to lose the defined group? (*)',
+          title: 'What groups have to be added to lose the defined group(s)? (*)',
           indent: 3,
           type: 'strings',
           conditions: [
@@ -228,7 +284,7 @@ registerPlugin({
         },
         {
           name: 'removeOnAddGroupsOne',
-          title: 'One out of which groups has to be added to lose the defined group? (*)',
+          title: 'One out of which groups has to be added to lose the defined group(s)? (*)',
           indent: 3,
           type: 'strings',
           conditions: [
@@ -244,7 +300,7 @@ registerPlugin({
         },
         {
           name: 'removeOnAddGroupsSingle',
-          title: 'What group has to be added to lose the defined group? (*)',
+          title: 'What group has to be added to lose the defined group(s)? (*)',
           indent: 3,
           type: 'string',
           conditions: [
@@ -260,7 +316,7 @@ registerPlugin({
         },
         {
           name: 'removeOnRemoveCondition',
-          title: 'Are they all needed to remove the defined group or just one of them? (*)',
+          title: 'Are they all needed to remove the defined group(s) or just one of them? (*)',
           indent: 2,
           type: 'select',
           options: [
@@ -277,7 +333,7 @@ registerPlugin({
         },
         {
           name: 'removeOnRemoveGroupsAll',
-          title: 'What groups have to be removed to lose the defined group? (*)',
+          title: 'What groups have to be removed to lose the defined group(s)? (*)',
           indent: 3,
           type: 'strings',
           conditions: [
@@ -293,7 +349,7 @@ registerPlugin({
         },
         {
           name: 'removeOnRemoveGroupsOne',
-          title: 'One out of which groups has to be removed to lose the defined group? (*)',
+          title: 'One out of which groups has to be removed to lose the defined group(s)? (*)',
           indent: 3,
           type: 'strings',
           conditions: [
@@ -309,7 +365,7 @@ registerPlugin({
         },
         {
           name: 'removeOnRemoveGroupsSingle',
-          title: 'What group has to be removed to lose the defined group? (*)',
+          title: 'What group has to be removed to lose the defined group(s)? (*)',
           indent: 3,
           type: 'string',
           conditions: [
@@ -339,18 +395,18 @@ registerPlugin({
 
 function (SinusBot, config) {
 
-  // Dependency Variables
+  /* DEPENDENCY VARIABLES */
   var engine = require('engine')
   var backend = require('backend')
   var event = require('event')
 
-  // Loading Event
+  /* LOADING EVENT */
   event.on('load', function () {
 
-    // Dependencies
+    /* DEPENDENCIES */
     var oklib = require('OKlib.js')
 
-    // Error Check
+    /* ERROR CHECK */
     if (!oklib) {
       engine.log('[RLNT] ASG > OKlib wasn\'t found!')
       engine.log('[RLNT] ASG > Install the OKlib or the script is disabled!')
@@ -358,64 +414,110 @@ function (SinusBot, config) {
       return
     }
 
-    // Execute Main Function
+    /* EXECUTE MAIN FUNCTION */
     RLNT_ASG(oklib)
   })
 
-  // Main Function
+  /* MAIN FUNCTION */
   function RLNT_ASG (oklib) {
 
-    // Loaded Log
+    /* LOADED */
     engine.log('[RLNT] ASG > The script loaded successfully!')
 
-    // Global Variables
+    /* GLOBAL VARIABLES */
     var groupAddArray = config.groupAddArray
     var groupRemoveArray = config.groupRemoveArray
     var loggingEnabled = config.loggingEnabled
     var debugEnabled = config.debugEnabled
 
-    // Group Adding Event
+    /* FUNCTIONS */
+    function makeArray (input) {
+      var output = input
+      if (!Array.isArray(output)) {
+        output = [output]
+      }
+      return output
+    }
+
+    function getMainGroupAdd (current) {
+      var output
+      if (current.multipleGroupsToAdd == 0) {
+        output = current.groupsToAdd
+      } else if (current.multipleGroupsToAdd == 1) {
+        output = current.groupToAdd
+      }
+      output = makeArray(output)
+      return output
+    }
+
+    function getMainGroupRemove (current) {
+      var output
+      if (current.multipleGroupsToRemove == 0) {
+        output = current.groupsToRemove
+      } else if (current.multipleGroupsToRemove == 1) {
+        output = current.groupToRemove
+      }
+      output = makeArray(output)
+      return output
+    }
+
+    function getMainGroupName (input) {
+      var output = '['
+      for (var i in input) {
+        output += '\'' + backend.getServerGroupByID(input[i]).name() + '\','
+      }
+      output = output.slice(0, -1) + ']'
+      return output
+    }
+
+    function logGroupAdd (user, input) {
+      if (loggingEnabled) {
+        input = getMainGroupName(input)
+        engine.log('[RLNT] ASG > Client \'' + user.name() + '\' was added to the group(s) \'' + input + '\'.')
+      }
+    }
+
+    function logGroupRemove (user, input) {
+      if (loggingEnabled) {
+        input = getMainGroupName(input)
+        engine.log('[RLNT] ASG > Client \'' + user.name() + '\' was removed from the group(s) \'' + input + '\'.')
+      }
+    }
+
+    /* GROUP ADDING EVENT */
     event.on('serverGroupAdded', function (RLNT) {
       var user = RLNT.client
       var groupID = RLNT.serverGroup.id()
+      var mainGroup, triggerGroup, toCheck
 
       // Add on Add
       for (var i in groupAddArray) {
-        var toCheckAdd = groupAddArray[i]
-        var mainGroupAdd = toCheckAdd.groupToAdd
-        var triggerGroupAdd
+        toCheck = groupAddArray[i]
+        mainGroup = getMainGroupAdd(toCheck)
 
-        if (toCheckAdd.onWhatAdd == 0) {
-          if (toCheckAdd.addOnAddCondition == 0) {
-            triggerGroupAdd = toCheckAdd.addOnAddGroupsAll
-            if (triggerGroupAdd.indexOf(groupID) != -1) {
-              if (oklib.client.isMemberOfAll(user, triggerGroupAdd)) {
-                if (!oklib.client.isMemberOfGroup(user, mainGroupAdd)) {
-                  user.addToServerGroup(mainGroupAdd)
-                  if (loggingEnabled) {
-                    engine.log('[RLNT] ASG > Client \'' + user.name() + '\' was added to the group \'' + backend.getServerGroupByID(mainGroupAdd).name() + '\'.')
-                  }
-                }
+        if (toCheck.onWhatAdd == 0) {
+          if (toCheck.addOnAddCondition == 0) {
+            triggerGroup = makeArray(toCheck.addOnAddGroupsAll)
+            if ((triggerGroup.indexOf(groupID) != -1) && (oklib.client.isMemberOfAll(user, triggerGroup))) {
+              if (!oklib.client.isMemberOfAll(user, mainGroup)) {
+                oklib.client.addToGroups(user, mainGroup)
+                logGroupAdd(user, mainGroup)
               }
             }
-          } else if (toCheckAdd.addOnAddCondition == 1) {
-            triggerGroupAdd = toCheckAdd.addOnAddGroupsOne
-            if (triggerGroupAdd.indexOf(groupID) != -1) {
-              if (!oklib.client.isMemberOfGroup(user, mainGroupAdd)) {
-                user.addToServerGroup(mainGroupAdd)
-                if (loggingEnabled) {
-                  engine.log('[RLNT] ASG > Client \'' + user.name() + '\' was added to the group \'' + backend.getServerGroupByID(mainGroupAdd).name() + '\'.')
-                }
+          } else if (toCheck.addOnAddCondition == 1) {
+            triggerGroup = makeArray(toCheck.addOnAddGroupsOne)
+            if (triggerGroup.indexOf(groupID) != -1) {
+              if (!oklib.client.isMemberOfAll(user, mainGroup)) {
+                oklib.client.addToGroups(user, mainGroup)
+                logGroupAdd(user, mainGroup)
               }
             }
-          } else if (toCheckAdd.addOnAddCondition == 2) {
-            triggerGroupAdd = toCheckAdd.addOnAddGroupsSingle
-            if (groupID === triggerGroupAdd) {
-              if (!oklib.client.isMemberOfGroup(user, mainGroupAdd)) {
-                user.addToServerGroup(mainGroupAdd)
-                if (loggingEnabled) {
-                  engine.log('[RLNT] ASG > Client \'' + user.name() + '\' was added to the group \'' + backend.getServerGroupByID(mainGroupAdd).name() + '\'.')
-                }
+          } else if (toCheck.addOnAddCondition == 2) {
+            triggerGroup = makeArray(toCheck.addOnAddGroupsSingle)
+            if (groupID === triggerGroup) {
+              if (!oklib.client.isMemberOfAll(user, mainGroup)) {
+                oklib.client.addToGroups(user, mainGroup)
+                logGroupAdd(user, mainGroup)
               }
             }
           }
@@ -424,41 +526,32 @@ function (SinusBot, config) {
 
       // Remove on Add
       for (var j in groupRemoveArray) {
-        var toCheckRemove = groupRemoveArray[j]
-        var mainGroupRemove = toCheckRemove.groupToRemove
-        var triggerGroupRemove
+        toCheck = groupRemoveArray[j]
+        mainGroup = getMainGroupRemove(toCheck)
 
-        if (toCheckRemove.onWhatRemove == 0) {
-          if (toCheckRemove.removeOnAddCondition == 0) {
-            triggerGroupRemove = toCheckRemove.removeOnAddGroupsAll
-            if (triggerGroupRemove.indexOf(groupID) != -1) {
-              if (oklib.client.isMemberOfAll(user, triggerGroupRemove)) {
-                if (oklib.client.isMemberOfGroup(user, mainGroupRemove)) {
-                  user.removeFromServerGroup(mainGroupRemove)
-                  if (loggingEnabled) {
-                    engine.log('[RLNT] ASG > Client \'' + user.name() + '\' was removed from the group \'' + backend.getServerGroupByID(mainGroupRemove).name() + '\'.')
-                  }
-                }
+        if (toCheck.onWhatRemove == 0) {
+          if (toCheck.removeOnAddCondition == 0) {
+            triggerGroup = makeArray(toCheck.removeOnAddGroupsAll)
+            if ((triggerGroup.indexOf(groupID) != -1) && (oklib.client.isMemberOfAll(user, triggerGroup))) {
+              if (oklib.client.isMemberOfOne(user, mainGroup)) {
+                oklib.client.removeFromGroups(user, mainGroup)
+                logGroupRemove(user, mainGroup)
               }
             }
-          } else if (toCheckRemove.removeOnAddCondition == 1) {
-            triggerGroupRemove = toCheckRemove.removeOnAddGroupsOne
-            if (triggerGroupRemove.indexOf(groupID) != -1) {
-              if (oklib.client.isMemberOfGroup(user, mainGroupRemove)) {
-                user.removeFromServerGroup(mainGroupRemove)
-                if (loggingEnabled) {
-                  engine.log('[RLNT] ASG > Client \'' + user.name() + '\' was removed from the group \'' + backend.getServerGroupByID(mainGroupRemove).name() + '\'.')
-                }
+          } else if (toCheck.removeOnAddCondition == 1) {
+            triggerGroup = makeArray(toCheck.removeOnAddGroupsOne)
+            if (triggerGroup.indexOf(groupID) != -1) {
+              if (oklib.client.isMemberOfOne(user, mainGroup)) {
+                oklib.client.removeFromGroups(user, mainGroup)
+                logGroupRemove(user, mainGroup)
               }
             }
-          } else if (toCheckRemove.removeOnAddCondition == 2) {
-            triggerGroupRemove = toCheckRemove.removeOnAddGroupsSingle
-            if (groupID === triggerGroupRemove) {
-              if (oklib.client.isMemberOfGroup(user, mainGroupRemove)) {
-                user.removeFromServerGroup(mainGroupRemove)
-                if (loggingEnabled) {
-                  engine.log('[RLNT] ASG > Client \'' + user.name() + '\' was removed from the group \'' + backend.getServerGroupByID(mainGroupRemove).name() + '\'.')
-                }
+          } else if (toCheck.removeOnAddCondition == 2) {
+            triggerGroup = makeArray(toCheck.removeOnAddGroupsSingle)
+            if (groupID === triggerGroup) {
+              if (oklib.client.isMemberOfOne(user, mainGroup)) {
+                oklib.client.removeFromGroups(user, mainGroup)
+                logGroupRemove(user, mainGroup)
               }
             }
           }
@@ -466,48 +559,40 @@ function (SinusBot, config) {
       }
     })
 
-    // Group Removing Event
+    /* GROUP REMOVING EVENT */
     event.on('serverGroupRemoved', function (RLNT) {
       var user = RLNT.client
       var groupID = RLNT.serverGroup.id()
+      var mainGroup, triggerGroup, toCheck
 
       // Add on Remove
       for (var i in groupAddArray) {
-        var toCheckAdd = groupAddArray[i]
-        var mainGroupAdd = toCheckAdd.groupToAdd
-        var triggerGroupAdd
+        toCheck = groupAddArray[i]
+        mainGroup = getMainGroupAdd(toCheck)
 
-        if (toCheckAdd.onWhatAdd == 1) {
-          if (toCheckAdd.addOnRemoveCondition == 0) {
-            triggerGroupAdd = toCheckAdd.addOnRemoveGroupsAll
-            if (triggerGroupAdd.indexOf(groupID) != -1) {
-              if (!oklib.client.isMemberOfOne(user, triggerGroupAdd)) {
-                if (!oklib.client.isMemberOfGroup(user, mainGroupAdd)) {
-                  user.addToServerGroup(mainGroupAdd)
-                  if (loggingEnabled) {
-                    engine.log('[RLNT] ASG > Client \'' + user.name() + '\' was added to the group \'' + backend.getServerGroupByID(mainGroupAdd).name() + '\'.')
-                  }
-                }
+        if (toCheck.onWhatAdd == 1) {
+          if (toCheck.addOnRemoveCondition == 0) {
+            triggerGroup = makeArray(toCheck.addOnRemoveGroupsAll)
+            if ((triggerGroup.indexOf(groupID) != -1) && (!oklib.client.isMemberOfOne(user, triggerGroup))) {
+              if (!oklib.client.isMemberOfAll(user, mainGroup)) {
+                oklib.client.addToGroups(user, mainGroup)
+                logGroupAdd(user, mainGroup)
               }
             }
-          } else if (toCheckAdd.addOnRemoveCondition == 1) {
-            triggerGroupAdd = toCheckAdd.addOnRemoveGroupsOne
-            if (triggerGroupAdd.indexOf(groupID) != -1) {
-              if (!oklib.client.isMemberOfGroup(user, mainGroupAdd)) {
-                user.addToServerGroup(mainGroupAdd)
-                if (loggingEnabled) {
-                  engine.log('[RLNT] ASG > Client \'' + user.name() + '\' was added to the group \'' + backend.getServerGroupByID(mainGroupAdd).name() + '\'.')
-                }
+          } else if (toCheck.addOnRemoveCondition == 1) {
+            triggerGroup = makeArray(toCheck.addOnRemoveGroupsOne)
+            if (triggerGroup.indexOf(groupID) != -1) {
+              if (!oklib.client.isMemberOfAll(user, mainGroup)) {
+                oklib.client.addToGroups(user, mainGroup)
+                logGroupAdd(user, mainGroup)
               }
             }
-          } else if (toCheckAdd.addOnRemoveCondition == 2) {
-            triggerGroupAdd = toCheckAdd.addOnRemoveGroupsSingle
-            if (groupID === triggerGroupAdd) {
-              if (!oklib.client.isMemberOfGroup(user, mainGroupAdd)) {
-                user.addToServerGroup(mainGroupAdd)
-                if (loggingEnabled) {
-                  engine.log('[RLNT] ASG > Client \'' + user.name() + '\' was added to the group \'' + backend.getServerGroupByID(mainGroupAdd).name() + '\'.')
-                }
+          } else if (toCheck.addOnRemoveCondition == 2) {
+            triggerGroup = makeArray(toCheck.addOnRemoveGroupsSingle)
+            if (groupID === triggerGroup) {
+              if (!oklib.client.isMemberOfAll(user, mainGroup)) {
+                oklib.client.addToGroups(user, mainGroup)
+                logGroupAdd(user, mainGroup)
               }
             }
           }
@@ -516,41 +601,32 @@ function (SinusBot, config) {
 
       // Remove on Remove
       for (var j in groupRemoveArray) {
-        var toCheckRemove = groupRemoveArray[j]
-        var mainGroupRemove = toCheckRemove.groupToRemove
-        var triggerGroupRemove
+        toCheck = groupRemoveArray[j]
+        mainGroup = getMainGroupRemove(toCheck)
 
-        if (toCheckRemove.onWhatRemove == 1) {
-          if (toCheckRemove.removeOnRemoveCondition == 0) {
-            triggerGroupRemove = toCheckRemove.removeOnRemoveGroupsAll
-            if (triggerGroupRemove.indexOf(groupID) != -1) {
-              if (!oklib.client.isMemberOfOne(user, triggerGroupRemove)) {
-                if (oklib.client.isMemberOfGroup(user, mainGroupRemove)) {
-                  user.removeFromServerGroup(mainGroupRemove)
-                  if (loggingEnabled) {
-                    engine.log('[RLNT] ASG > Client \'' + user.name() + '\' was removed from the group \'' + backend.getServerGroupByID(mainGroupRemove).name() + '\'.')
-                  }
-                }
+        if (toCheck.onWhatRemove == 1) {
+          if (toCheck.removeOnRemoveCondition == 0) {
+            triggerGroup = makeArray(toCheck.removeOnRemoveGroupsAll)
+            if ((triggerGroup.indexOf(groupID) != -1) && (!oklib.client.isMemberOfOne(user, triggerGroup))) {
+              if (oklib.client.isMemberOfOne(user, mainGroup)) {
+                oklib.client.removeFromGroups(user, mainGroup)
+                logGroupRemove(user, mainGroup)
               }
             }
-          } else if (toCheckRemove.removeOnRemoveCondition == 1) {
-            triggerGroupRemove = toCheckRemove.removeOnRemoveGroupsOne
-            if (triggerGroupRemove.indexOf(groupID) != -1) {
-              if (oklib.client.isMemberOfGroup(user, mainGroupRemove)) {
-                user.removeFromServerGroup(mainGroupRemove)
-                if (loggingEnabled) {
-                  engine.log('[RLNT] ASG > Client \'' + user.name() + '\' was removed the group \'' + backend.getServerGroupByID(mainGroupRemove).name() + '\'.')
-                }
+          } else if (toCheck.removeOnRemoveCondition == 1) {
+            triggerGroup = makeArray(toCheck.removeOnRemoveGroupsOne)
+            if (triggerGroup.indexOf(groupID) != -1) {
+              if (oklib.client.isMemberOfOne(user, mainGroup)) {
+                oklib.client.removeFromGroups(user, mainGroup)
+                logGroupRemove(user, mainGroup)
               }
             }
-          } else if (toCheckRemove.removeOnRemoveCondition == 2) {
-            triggerGroupRemove = toCheckRemove.removeOnRemoveGroupsSingle
-            if (groupID === triggerGroupRemove) {
-              if (oklib.client.isMemberOfGroup(user, mainGroupRemove)) {
-                user.removeFromServerGroup(mainGroupRemove)
-                if (loggingEnabled) {
-                  engine.log('[RLNT] ASG > Client \'' + user.name() + '\' was removed from the group \'' + backend.getServerGroupByID(mainGroupRemove).name() + '\'.')
-                }
+          } else if (toCheck.removeOnRemoveCondition == 2) {
+            triggerGroup = makeArray(toCheck.removeOnRemoveGroupsSingle)
+            if (groupID === triggerGroup) {
+              if (oklib.client.isMemberOfOne(user, mainGroup)) {
+                oklib.client.removeFromGroups(user, mainGroup)
+                logGroupRemove(user, mainGroup)
               }
             }
           }
