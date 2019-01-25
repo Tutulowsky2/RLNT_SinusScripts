@@ -12,7 +12,7 @@ registerPlugin({
   name: 'Automated Header Groups',
   author: 'RLNT <RLNT@damn-community.com>',
   description: 'With this script, the bot will automatically assign or remove header groups if the client has at least one of the corresponding trigger groups.',
-  version: '1.0.2',
+  version: '1.0.3',
   backends: ['ts3'],
   vars: [
     {
@@ -68,11 +68,14 @@ function (SinusBot, config) {
       engine.log('[RLNT] AHG > OKlib wasn\'t found!')
       engine.log('[RLNT] AHG > Install the OKlib or the script is disabled!')
       engine.log('[RLNT] AHG > OKlib can be downloaded here: https://forum.sinusbot.com/resources/oklib.325/')
-      return
+    } else if (!oklib.general.checkVersion('1.0.7')) {
+      engine.log('[RLNT] AHG > OKlib is outdated!')
+      engine.log('[RLNT] AHG > Minimum version of OKlib is 1.0.7!')
+      engine.log('[RLNT] AHG > OKlib can be downloaded here: https://forum.sinusbot.com/resources/oklib.325/')
+    } else {
+      /* EXECUTE MAIN FUNCTION */
+      RLNT_AHG(oklib)
     }
-
-    /* EXECUTE MAIN FUNCTION */
-    RLNT_AHG(oklib)
   })
 
   /* MAIN FUNCTION */
