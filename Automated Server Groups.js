@@ -12,7 +12,7 @@ registerPlugin({
   name: 'Automated Server Groups',
   author: 'RLNT <RLNT@damn-community.com>',
   description: 'With this script, the bot will automatically assign or remove groups if the client gets or is removed from a servergroup.',
-  version: '1.1.2',
+  version: '1.1.3',
   backends: ['ts3'],
   vars: [
     {
@@ -411,11 +411,14 @@ function (SinusBot, config) {
       engine.log('[RLNT] ASG > OKlib wasn\'t found!')
       engine.log('[RLNT] ASG > Install the OKlib or the script is disabled!')
       engine.log('[RLNT] ASG > OKlib can be downloaded here: https://forum.sinusbot.com/resources/oklib.325/')
-      return
-    }
-
+    } else if (!oklib.general.checkVersion('1.0.7')) {
+      engine.log('[RLNT] ASG > OKlib is outdated!')
+      engine.log('[RLNT] ASG > Minimum version of OKlib is 1.0.7!')
+      engine.log('[RLNT] ASG > OKlib can be downloaded here: https://forum.sinusbot.com/resources/oklib.325/')
+    } else {
     /* EXECUTE MAIN FUNCTION */
     RLNT_ASG(oklib)
+    }
   })
 
   /* MAIN FUNCTION */
