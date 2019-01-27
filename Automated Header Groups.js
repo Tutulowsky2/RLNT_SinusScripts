@@ -84,12 +84,8 @@ function (SinusBot, config) {
     /* LOADED */
     engine.log('[RLNT] AHG > The script loaded successfully!')
 
-    /* GLOBAL VARIABLES */
-    var groups = config.groupArray
-    var loggingEnabled = config.loggingEnabled == 0
-
     /* FUNCTIONS */
-    function makeArray (input) {
+    function makeArray(input) {
       var output = input
       if (!Array.isArray(output)) {
         output = [output]
@@ -97,7 +93,7 @@ function (SinusBot, config) {
       return output
     }
 
-    function logGroupAdd (user, input) {
+    function logGroupAdd(user, input) {
       if (loggingEnabled) {
         engine.log('[RLNT] AHG > Client \'' + user.name() + '\' was added to the header group \'' + backend.getServerGroupByID(input).name + '\'.')
       }
@@ -108,6 +104,10 @@ function (SinusBot, config) {
         engine.log('[RLNT] AHG > Client \'' + user.name() + '\' was removed from the header group \'' + backend.getServerGroupByID(input).name + '\'.')
       }
     }
+
+    /* GLOBAL VARIABLES */
+    var groups = config.groupArray
+    var loggingEnabled = config.loggingEnabled == 0
 
     /* GROUP ADDING EVENT */
     event.on('serverGroupAdded', function (RLNT) {
