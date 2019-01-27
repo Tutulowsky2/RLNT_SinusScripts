@@ -427,13 +427,8 @@ function (SinusBot, config) {
     /* LOADED */
     engine.log('[RLNT] ASG > The script loaded successfully!')
 
-    /* GLOBAL VARIABLES */
-    var groupAddArray = config.groupAddArray
-    var groupRemoveArray = config.groupRemoveArray
-    var loggingEnabled = config.loggingEnabled == 0
-
     /* FUNCTIONS */
-    function makeArray (input) {
+    function makeArray(input) {
       var output = input
       if (!Array.isArray(output)) {
         output = [output]
@@ -441,7 +436,7 @@ function (SinusBot, config) {
       return output
     }
 
-    function getMainGroupAdd (current) {
+    function getMainGroupAdd(current) {
       var output
       if (current.multipleGroupsToAdd == 0) {
         output = current.groupsToAdd
@@ -452,7 +447,7 @@ function (SinusBot, config) {
       return output
     }
 
-    function getMainGroupRemove (current) {
+    function getMainGroupRemove(current) {
       var output
       if (current.multipleGroupsToRemove == 0) {
         output = current.groupsToRemove
@@ -463,7 +458,7 @@ function (SinusBot, config) {
       return output
     }
 
-    function getMainGroupName (input) {
+    function getMainGroupName(input) {
       var output = '['
       for (var i in input) {
         output += '\'' + backend.getServerGroupByID(input[i]).name() + '\','
@@ -472,19 +467,24 @@ function (SinusBot, config) {
       return output
     }
 
-    function logGroupAdd (user, input) {
+    function logGroupAdd(user, input) {
       if (loggingEnabled) {
         input = getMainGroupName(input)
         engine.log('[RLNT] ASG > Client \'' + user.name() + '\' was added to the group(s) \'' + input + '\'.')
       }
     }
 
-    function logGroupRemove (user, input) {
+    function logGroupRemove(user, input) {
       if (loggingEnabled) {
         input = getMainGroupName(input)
         engine.log('[RLNT] ASG > Client \'' + user.name() + '\' was removed from the group(s) \'' + input + '\'.')
       }
     }
+
+    /* GLOBAL VARIABLES */
+    var groupAddArray = config.groupAddArray
+    var groupRemoveArray = config.groupRemoveArray
+    var loggingEnabled = config.loggingEnabled == 0
 
     /* GROUP ADDING EVENT */
     event.on('serverGroupAdded', function (RLNT) {
