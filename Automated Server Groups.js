@@ -12,7 +12,7 @@ registerPlugin({
   name: 'Automated Server Groups',
   author: 'RLNT <RLNT@damn-community.com>',
   description: 'With this script, the bot will automatically assign or remove groups if the client gets or is removed from a servergroup.',
-  version: '1.1.3',
+  version: '1.1.4',
   backends: ['ts3'],
   vars: [
     {
