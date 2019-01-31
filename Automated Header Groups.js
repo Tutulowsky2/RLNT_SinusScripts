@@ -95,13 +95,13 @@ function (SinusBot, config) {
 
     function logGroupAdd (user, input) {
       if (loggingEnabled) {
-        engine.log('[RLNT] AHG > Client \'' + user.name() + '\' was added to the header group \'' + backend.getServerGroupByID(input).name + '\'.')
+        engine.log('[RLNT] AHG > Client \'' + user.name() + '\' was added to the header group \'' + backend.getServerGroupByID(input).name() + '\'.')
       }
     }
 
     function logGroupRemove (user, input) {
       if (loggingEnabled) {
-        engine.log('[RLNT] AHG > Client \'' + user.name() + '\' was removed from the header group \'' + backend.getServerGroupByID(input).name + '\'.')
+        engine.log('[RLNT] AHG > Client \'' + user.name() + '\' was removed from the header group \'' + backend.getServerGroupByID(input).name() + '\'.')
       }
     }
 
