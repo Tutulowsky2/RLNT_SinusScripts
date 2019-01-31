@@ -85,7 +85,7 @@ function (SinusBot, config) {
     engine.log('[RLNT] AHG > The script loaded successfully!')
 
     /* FUNCTIONS */
-    function makeArray(input) {
+    function makeArray (input) {
       var output = input
       if (!Array.isArray(output)) {
         output = [output]
@@ -93,13 +93,13 @@ function (SinusBot, config) {
       return output
     }
 
-    function logGroupAdd(user, input) {
+    function logGroupAdd (user, input) {
       if (loggingEnabled) {
         engine.log('[RLNT] AHG > Client \'' + user.name() + '\' was added to the header group \'' + backend.getServerGroupByID(input).name + '\'.')
       }
     }
 
-    function logGroupRemove(user, input) {
+    function logGroupRemove (user, input) {
       if (loggingEnabled) {
         engine.log('[RLNT] AHG > Client \'' + user.name() + '\' was removed from the header group \'' + backend.getServerGroupByID(input).name + '\'.')
       }
