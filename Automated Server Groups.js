@@ -12,7 +12,7 @@ registerPlugin({
   name: 'Automated Server Groups',
   author: 'RLNT <RLNT@damn-community.com>',
   description: 'With this script, the bot will automatically assign or remove groups if the client gets or is removed from a servergroup.',
-  version: '1.1.3',
+  version: '1.1.4',
   backends: ['ts3'],
   vars: [
     {
@@ -427,11 +427,6 @@ function (SinusBot, config) {
     /* LOADED */
     engine.log('[RLNT] ASG > The script loaded successfully!')
 
-    /* GLOBAL VARIABLES */
-    var groupAddArray = config.groupAddArray
-    var groupRemoveArray = config.groupRemoveArray
-    var loggingEnabled = config.loggingEnabled == 0
-
     /* FUNCTIONS */
     function makeArray (input) {
       var output = input
@@ -485,6 +480,11 @@ function (SinusBot, config) {
         engine.log('[RLNT] ASG > Client \'' + user.name() + '\' was removed from the group(s) \'' + input + '\'.')
       }
     }
+
+    /* GLOBAL VARIABLES */
+    var groupAddArray = config.groupAddArray
+    var groupRemoveArray = config.groupRemoveArray
+    var loggingEnabled = config.loggingEnabled == 0
 
     /* GROUP ADDING EVENT */
     event.on('serverGroupAdded', function (RLNT) {
