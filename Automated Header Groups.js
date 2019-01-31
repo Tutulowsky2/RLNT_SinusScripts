@@ -12,7 +12,7 @@ registerPlugin({
   name: 'Automated Header Groups',
   author: 'RLNT <RLNT@damn-community.com>',
   description: 'With this script, the bot will automatically assign or remove header groups if the client has at least one of the corresponding trigger groups.',
-  version: '1.0.3',
+  version: '1.0.4',
   backends: ['ts3'],
   vars: [
     {
@@ -84,10 +84,6 @@ function (SinusBot, config) {
     /* LOADED */
     engine.log('[RLNT] AHG > The script loaded successfully!')
 
-    /* GLOBAL VARIABLES */
-    var groups = config.groupArray
-    var loggingEnabled = config.loggingEnabled == 0
-
     /* FUNCTIONS */
     function makeArray (input) {
       var output = input
@@ -99,15 +95,19 @@ function (SinusBot, config) {
 
     function logGroupAdd (user, input) {
       if (loggingEnabled) {
-        engine.log('[RLNT] AHG > Client \'' + user.name() + '\' was added to the header group \'' + backend.getServerGroupByID(input).name + '\'.')
+        engine.log('[RLNT] AHG > Client \'' + user.name() + '\' was added to the header group \'' + backend.getServerGroupByID(input).name() + '\'.')
       }
     }
 
-    function logGroupRemove(user, input) {
+    function logGroupRemove (user, input) {
       if (loggingEnabled) {
-        engine.log('[RLNT] AHG > Client \'' + user.name() + '\' was removed from the header group \'' + backend.getServerGroupByID(input).name + '\'.')
+        engine.log('[RLNT] AHG > Client \'' + user.name() + '\' was removed from the header group \'' + backend.getServerGroupByID(input).name() + '\'.')
       }
     }
+
+    /* GLOBAL VARIABLES */
+    var groups = config.groupArray
+    var loggingEnabled = config.loggingEnabled == 0
 
     /* GROUP ADDING EVENT */
     event.on('serverGroupAdded', function (RLNT) {
