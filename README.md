@@ -13,3 +13,6 @@ Currently included:
   - can remove a server group when another servergroup is assigned or removed
   - can also check for multiple groups (either all are needed or just one out of a given array)
   - since v1.1.0 also supports multiple server groups at the same time
+- One of them only v1.0.0
+  - checks if a user has only one group of a given pool
+  - removes old ones if a new group is assigned
