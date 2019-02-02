@@ -4,7 +4,7 @@
   SinusBot Discord  - filled with a ton of helpful people
   Multivitamin      - helps to compensate my stupidness :D
   irgendwer         - "rude" part of Multivitamin but helps me too :*
-  Diesmon           - Author of OKlib
+  Diesmon           - Author of OKlib and also helpful
   Tuetchen          - Author of OKlib
 */
 
