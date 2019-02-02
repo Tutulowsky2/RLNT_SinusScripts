@@ -12,7 +12,7 @@ registerPlugin({
   name: 'Automated Header Groups',
   author: 'RLNT <RLNT@damn-community.com>',
   description: 'With this script, the bot will automatically assign or remove header groups if the client has at least one of the corresponding trigger groups.',
-  version: '1.0.4',
+  version: '1.0.5',
   backends: ['ts3'],
   vars: [
     {
