@@ -12,7 +12,7 @@ registerPlugin({
   name: 'First Connect Message',
   author: 'RLNT <RLNT@damn-community.com>',
   description: 'With this script, the bot will automatically message a user when joining for the first time.',
-  version: '1.0.0',
+  version: '1.0.1',
   backends: ['ts3'],
   vars: [
     {
