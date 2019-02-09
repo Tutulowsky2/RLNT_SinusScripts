@@ -124,6 +124,8 @@ function (SinusBot, config) {
       var user = RLNT.client
       var channel = RLNT.toChannel
 
+      if (user.isSelf() || RLNT.fromChannel != null) { return }
+
       if (channel.isDefault() && oklib.client.isMemberOfGroup(user, defaultGroup)) {
         if (messageType == 0) {
           var pokeText = config.pokeText.replace('%user%', user.name())
