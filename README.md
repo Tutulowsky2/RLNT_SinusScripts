@@ -19,6 +19,8 @@ Currently included:
   - messages a user when joining a specified channel
   - supports group and client blacklisting
   - customizable message
+- Move on Connect v1.0.0
+  - moves users or whole groups when connecting
 - One of them only v1.0.0
   - checks if a user has only one group of a given pool
   - removes old ones if a new group is assigned
