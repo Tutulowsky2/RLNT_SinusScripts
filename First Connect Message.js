@@ -1,4 +1,3 @@
-// @ts-check
 /*
   Credits
   SinusBot Discord  - filled with a ton of helpful people
@@ -19,25 +18,60 @@ registerPlugin({
       name: 'required',
       title: 'All fields that are marked with (*) are required!'
     },
+
+    /* MAIN OPTIONS */
+    {
+      name: 'placeholder1',
+      title: ''
+    },
+    {
+      name: 'options-main',
+      title: '### Main Options ###'
+    },
+    // default group
     {
       name: 'defaultGroup',
       title: 'Default Group (*)',
-      type: 'string'
+      type: 'number'
     },
+    // logging
     {
-      name: 'messageType',
-      title: 'Message Type (*)',
+      name: 'loggingEnabled',
+      title: 'Should the actions the script is doing be logged?',
       type: 'select',
       options: [
+        'Yes',
+        'No'
+      ]
+    },
+
+    /* MESSAGE OPTIONS */
+    {
+      name: 'placeholder2',
+      title: ''
+    },
+    {
+      name: 'options-message',
+      title: '### Message Options ###'
+    },
+    // message
+    {
+      name: 'messageType',
+      title: 'How should the client be notified?',
+      indent: 1,
+      type: 'select',
+      options: [
+        'Chat',
         'Poke',
-        'Chat'
+        'Both'
       ]
     },
     {
-      name: 'pokeText',
-      title: 'Poke Text | [%user% = Client Name]',
+      name: 'messageChat1',
+      title: 'Chat message | [%user% = name of the client]',
       indent: 1,
-      type: 'string',
+      type: 'multiline',
+      placeholder: 'Hello %user%! Welcome to our TeamSpeak!',
       conditions: [
         {
           field: 'messageType',
@@ -46,10 +80,11 @@ registerPlugin({
       ]
     },
     {
-      name: 'chatText',
-      title: 'Chat Text | [%user% = Client Name]',
+      name: 'messagePoke1',
+      title: 'Poke message | [%user% = name of the client]',
       indent: 1,
-      type: 'multiline',
+      type: 'string',
+      placeholder: 'Hello %user%! Welcome to our TeamSpeak!',
       conditions: [
         {
           field: 'messageType',
@@ -58,39 +93,55 @@ registerPlugin({
       ]
     },
     {
-      name: 'loggingEnabled',
-      title: 'Should the actions the script is doing be logged? (*)',
-      type: 'select',
-      options: [
-        'Yes',
-        'No'
+      name: 'messageChat2',
+      title: 'Chat message | [%user% = name of the client]',
+      indent: 1,
+      type: 'multiline',
+      placeholder: 'Hello %user%! Welcome to our TeamSpeak!',
+      conditions: [
+        {
+          field: 'messageType',
+          value: 2
+        }
+      ]
+    },
+    {
+      name: 'messagePoke2',
+      title: 'Poke message | [%user% = name of the client]',
+      indent: 1,
+      type: 'string',
+      placeholder: 'Hello %user%! Welcome to our TeamSpeak!',
+      conditions: [
+        {
+          field: 'messageType',
+          value: 2
+        }
       ]
     }
   ]
 },
 
-function (SinusBot, config) {
+(SinusBot, config) => {
 
   /* DEPENDENCY VARIABLES */
-  var engine = require('engine')
-  var event = require('event')
+  const engine = require('engine')
+  const event = require('event')
 
   /* LOADING EVENT */
-  event.on('load', function () {
+  event.on('load', () => {
 
     /* DEPENDENCIES */
-    var oklib = require('OKlib.js')
+    const oklib = require('OKlib.js')
 
     /* ERROR CHECK */
     if (!oklib) {
-      engine.log('[RLNT] FCM > OKlib wasn\'t found!')
-      engine.log('[RLNT] FCM > Install the OKlib or the script is disabled!')
-      engine.log('[RLNT] FCM > OKlib can be downloaded here: https://forum.sinusbot.com/resources/oklib.325/')
+      engine.log('[RLNT] MOR > OKlib wasn\'t found!')
+      engine.log('[RLNT] MOR > Install the OKlib or the script is disabled!')
+      engine.log('[RLNT] MOR > OKlib can be downloaded here: https://forum.sinusbot.com/resources/oklib.325/')
     } else if (!oklib.general.checkVersion('1.0.8')) {
-      engine.log('[RLNT] FCM > OKlib is outdated!')
-      engine.log('[RLNT] FCM > Minimum version of OKlib is 1.0.8!')
-      engine.log('[RLNT] FCM > Install the required version or the script is disabled!')
-      engine.log('[RLNT] FCM > OKlib can be downloaded here: https://forum.sinusbot.com/resources/oklib.325/')
+      engine.log('[RLNT] MOR > OKlib is outdated!')
+      engine.log('[RLNT] MOR > Minimum version of OKlib is 1.0.8!')
+      engine.log('[RLNT] MOR > OKlib can be downloaded here: https://forum.sinusbot.com/resources/oklib.325/')
     } else {
       /* EXECUTE MAIN FUNCTION */
       RLNT_FCM(oklib)
@@ -98,44 +149,56 @@ function (SinusBot, config) {
   })
 
   /* MAIN FUNCTION */
-  function RLNT_FCM (oklib) {
+  function RLNT_FCM(oklib) {
 
     /* LOADED */
     engine.log('[RLNT] FCM > The script loaded successfully!')
 
-    /* FUNCTIONS */
-    function logMessaged (user, type) {
-      if (loggingEnabled) {
-        if (type == 0) {
-          engine.log('[RLNT] FCM > Client \'' + user.name() + '\' was poked because of first joining.')
-        } else if (type == 1) {
-          engine.log('[RLNT] FCM > Client \'' + user.name() + '\' was messaged because of first joining.')
-        }
-      }
+    /* GLOBAL VARIABLES */
+    // main
+    const defaultGroup = config.defaultGroup || undefined
+    if (defaultGroup === undefined) {
+      engine.log('[RLNT] FCM > defaultGroup was not set in config, cancelling script')
+      return
+    }
+    const loggingEnabled = config.loggingEnabled === 0 || false
+    // message
+    const messageType = config.messageType || 0
+    let messageText1, messageText2
+    if (messageType === 0) {
+      messageText1 = config.messageChat1 || 'Hello %user%! Welcome to our TeamSpeak!'
+    } else if (messageType === 1) {
+      messageText1 = config.messagePoke1 || 'Hello %user%! Welcome to our TeamSpeak!'
+    } else {
+      messageText1 = config.messageChat2 || 'Hello %user%! Welcome to our TeamSpeak!'
+      messageText2 = config.messagePoke2 || 'Hello %user%! Welcome to our TeamSpeak!'
     }
 
-    /* GLOBAL VARIABLES */
-    var defaultGroup = config.defaultGroup
-    var messageType = config.messageType
-    var loggingEnabled = config.loggingEnabled == 0
+    /* FUNCTIONS */
+    function log(client) {
+      if (loggingEnabled)
+        engine.log('[RLNT] FCM > Client \'' + client + '\' was notified | Reason: first time joining')
+    }
 
     /* CLIENT MOVE EVENT */
-    event.on('clientMove', function (RLNT) {
-      var user = RLNT.client
-      var channel = RLNT.toChannel
+    event.on('clientMove', RLNT => {
+      const user = RLNT.client
+      const channel = RLNT.fromChannel
 
-      if (user.isSelf() || RLNT.fromChannel != null) { return }
+      if (channel !== null || user === undefined || user === null || user.isSelf()) return
 
-      if (channel.isDefault() && oklib.client.isMemberOfGroup(user, defaultGroup)) {
-        if (messageType == 0) {
-          var pokeText = config.pokeText.replace('%user%', user.name())
-          user.poke(pokeText)
-          logMessaged(user, 0)
-        } else if (messageType == 1) {
-          var chatText = config.chatText.replace('%user%', user.name())
-          user.chat(chatText)
-          logMessaged(user, 1)
+      if (oklib.client.isMemberOfGroup(user, defaultGroup)) {
+        messageText1 = messageText1.replace('%user%', user.name())
+        messageText2 = messageText2.replace('%user%', user.name())
+        if (messageType === 0) {
+          user.chat(messageText1)
+        } else if (messageType === 1) {
+          user.poke(messageText1)
+        } else {
+          user.chat(messageText1)
+          user.poke(messageText2)
         }
+        log(user.name())
       }
     })
   }
