@@ -1,6 +1,10 @@
 {
   "compilerOptions": {
-    "target": "es5",
-    "checkJs": true
-  }
+    "checkJs": true,
+    "target": "es2018"
+  },
+  "exclude": [
+    "node_modules",
+    "**/node_modules/*"
+  ]
 }
