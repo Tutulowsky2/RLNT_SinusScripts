@@ -5,9 +5,60 @@
   "author": "RLNT",
   "license": "Unlicense",
   "devDependencies": {
-    "eslint-plugin-promise": "^4.0.1"
+    "eslint-plugin-promise": "^4.0.1",
+    "xo": "^0.24.0"
   },
   "dependencies": {
-    "sinusbot-scripting-engine": "^1.0.4"
+    "sinusbot-scripting-engine": "^1.0.9"
+  },
+  "scripts": {
+    "test": "xo"
+  },
+  "xo": {
+    "envs": ["browser","node","jquery"],
+    "globals": ["registerPlugin"],
+    "space": true,
+    "semicolon": false,
+    "rules": {
+      "block-scoped-var": [
+        "warn"
+      ],
+      "capitalized-comments": [
+        "off"
+      ],
+      "complexity": [
+        "off"
+      ],
+      "curly": [
+        "off"
+      ],
+      "new-cap": [
+        "off"
+      ],
+      "no-else-return": [
+        "off"
+      ],
+      "no-negated-condition": [
+        "off"
+      ],
+      "no-unused-vars": [
+        "warn"
+      ],
+      "no-var": [
+        "warn"
+      ],
+      "import/no-unresolved": [
+        "off"
+      ],
+      "one-var": [
+        "off"
+      ],
+      "padded-blocks": [
+        "off"
+      ],
+      "padding-line-between-statements": [
+        "off"
+      ]
+    }
   }
 }
