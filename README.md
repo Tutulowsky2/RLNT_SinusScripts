@@ -13,7 +13,7 @@ Currently included:
   - can remove a server group when another servergroup is assigned or removed
   - can also check for multiple groups (either all are needed or just one out of a given array)
   - since v1.1.0 also supports multiple server groups at the same time
-- First Connect Message v1.0.1
+- First Connect Message v1.1.0
   - messages or pokes a user on first connect
 - Message User on Join v1.0.0
   - messages a user when joining a specified channel
