@@ -197,6 +197,53 @@ registerPlugin({
               value: 2
             }
           ]
+        },
+        {
+          name: 'override',
+          title: 'Should there be override groups? (*)',
+          indent: 1,
+          type: 'select',
+          options: [ 'Multiple', 'Single', 'No' ]
+        },
+        {
+          name: 'overrideGroupsCondition',
+          title: 'Are they all needed to to override the rule? (*)',
+          indent: 2,
+          type: 'select',
+          options: [
+            'Having all these groups overrides this rule',
+            'Having any these groups overrides this rule'
+          ],
+          conditions: [
+            {
+              field: 'override',
+              value: 0
+            }
+          ]
+        },
+        {
+          name: 'overrideGroups',
+          title: 'Groups that override this rule (*)',
+          indent: 2,
+          type: 'strings',
+          conditions: [
+            {
+              field: 'override',
+              value: 0
+            }
+          ]
+        },
+        {
+          name: 'overrideGroup',
+          title: 'Group that overrides this rule (*)',
+          indent: 2,
+          type: 'string',
+          conditions: [
+            {
+              field: 'override',
+              value: 1
+            }
+          ]
         }
       ]
     },
@@ -378,6 +425,53 @@ registerPlugin({
               value: 2
             }
           ]
+        },
+        {
+          name: 'override',
+          title: 'Should there be override groups? (*)',
+          indent: 1,
+          type: 'select',
+          options: [ 'Multiple', 'Single', 'No' ]
+        },
+        {
+          name: 'overrideGroupsCondition',
+          title: 'Are they all needed to to override the rule? (*)',
+          indent: 2,
+          type: 'select',
+          options: [
+            'Having all these groups overrides this rule',
+            'Having any these groups overrides this rule'
+          ],
+          conditions: [
+            {
+              field: 'override',
+              value: 0
+            }
+          ]
+        },
+        {
+          name: 'overrideGroups',
+          title: 'Groups that override this rule (*)',
+          indent: 2,
+          type: 'strings',
+          conditions: [
+            {
+              field: 'override',
+              value: 0
+            }
+          ]
+        },
+        {
+          name: 'overrideGroup',
+          title: 'Group that overrides this rule (*)',
+          indent: 2,
+          type: 'string',
+          conditions: [
+            {
+              field: 'override',
+              value: 1
+            }
+          ]
         }
       ]
     },
@@ -457,6 +551,25 @@ function (SinusBot, config) {
       output = makeArray(output)
       return output
     }
+    
+    function getOverride(current,user) {
+      if (current.override == 1) {
+        if (oklib.client.isMemberOfGroup(user, current.overrideGroup)) {
+          return true;
+        }
+      } else {
+        if (current.overrideGroupsCondition == 0) {
+          if (oklib.client.isMemberOfAll(user, makeArray(current.overrideGroups))) {
+            return true;
+          }
+        } else {
+          if (oklib.client.isMemberOfOne(user, makeArray(current.overrideGroups))) {
+            return true;
+          }
+        }
+      }
+      return false;
+    }
 
     function getMainGroupName (input) {
       var output = '['
@@ -496,6 +609,12 @@ function (SinusBot, config) {
       for (var i in groupAddArray) {
         toCheck = groupAddArray[i]
         mainGroup = getMainGroupAdd(toCheck)
+        
+        if(!(toCheck.override == 2)){
+          if (getOverride(toCheck,user)){
+            continue;
+          };
+        }
 
         if (toCheck.onWhatAdd == 0) {
           if (toCheck.addOnAddCondition == 0) {
@@ -530,6 +649,12 @@ function (SinusBot, config) {
       for (var j in groupRemoveArray) {
         toCheck = groupRemoveArray[j]
         mainGroup = getMainGroupRemove(toCheck)
+        
+        if(!(toCheck.override == 2)){
+          if (getOverride(toCheck,user)){
+             continue;
+          };
+        }
 
         if (toCheck.onWhatRemove == 0) {
           if (toCheck.removeOnAddCondition == 0) {
@@ -571,6 +696,12 @@ function (SinusBot, config) {
       for (var i in groupAddArray) {
         toCheck = groupAddArray[i]
         mainGroup = getMainGroupAdd(toCheck)
+        
+        if(!(toCheck.override == 2)){
+          if (getOverride(toCheck,user)){
+            continue;
+          };
+        }
 
         if (toCheck.onWhatAdd == 1) {
           if (toCheck.addOnRemoveCondition == 0) {
@@ -605,6 +736,12 @@ function (SinusBot, config) {
       for (var j in groupRemoveArray) {
         toCheck = groupRemoveArray[j]
         mainGroup = getMainGroupRemove(toCheck)
+        
+        if(!(toCheck.override == 2)){
+          if (getOverride(toCheck,user)){
+            continue;
+          };
+        }
 
         if (toCheck.onWhatRemove == 1) {
           if (toCheck.removeOnRemoveCondition == 0) {
