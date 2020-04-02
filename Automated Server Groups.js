@@ -12,7 +12,7 @@ registerPlugin({
   name: 'Automated Server Groups',
   author: 'RLNT <RLNT@damn-community.com>',
   description: 'With this script, the bot will automatically assign or remove groups if the client gets or is removed from a servergroup.',
-  version: '1.1.5',
+  version: '1.2.0',
   backends: ['ts3'],
   vars: [
     {
@@ -197,6 +197,57 @@ registerPlugin({
               value: 2
             }
           ]
+        },
+        {
+          name: 'override',
+          title: 'Should there be groups that prevent the user from getting the group(s)? (*)',
+          indent: 1,
+          type: 'select',
+          options: [
+            'Multiple',
+            'Single',
+            'No'
+          ]
+        },
+        {
+          name: 'overrideGroupsCondition',
+          title: 'Are they all needed to prevent the user from getting the group(s)? (*)',
+          indent: 2,
+          type: 'select',
+          options: [
+            'The user needs all groups to prevent getting the group(s)',
+            'The user needs any of these groups to prevent getting the group(s)'
+          ],
+          conditions: [
+            {
+              field: 'override',
+              value: 0
+            }
+          ]
+        },
+        {
+          name: 'overrideGroups',
+          title: 'Groups that are required to prevent getting the group(s) (*)',
+          indent: 2,
+          type: 'strings',
+          conditions: [
+            {
+              field: 'override',
+              value: 0
+            }
+          ]
+        },
+        {
+          name: 'overrideGroup',
+          title: 'Group that is required to prevent getting the group(s) (*)',
+          indent: 2,
+          type: 'string',
+          conditions: [
+            {
+              field: 'override',
+              value: 1
+            }
+          ]
         }
       ]
     },
@@ -378,6 +429,57 @@ registerPlugin({
               value: 2
             }
           ]
+        },
+{
+          name: 'override',
+          title: 'Should there be groups that prevent the user from losing the group(s)? (*)',
+          indent: 1,
+          type: 'select',
+          options: [
+            'Multiple',
+            'Single',
+            'No'
+          ]
+        },
+        {
+          name: 'overrideGroupsCondition',
+          title: 'Are they all needed to prevent the user from losing the group(s)? (*)',
+          indent: 2,
+          type: 'select',
+          options: [
+            'The user needs all groups to prevent losing the group(s)',
+            'The user needs any of these groups to prevent losing the group(s)'
+          ],
+          conditions: [
+            {
+              field: 'override',
+              value: 0
+            }
+          ]
+        },
+        {
+          name: 'overrideGroups',
+          title: 'Groups that are required to prevent losing the group(s) (*)',
+          indent: 2,
+          type: 'strings',
+          conditions: [
+            {
+              field: 'override',
+              value: 0
+            }
+          ]
+        },
+        {
+          name: 'overrideGroup',
+          title: 'Group that is required to prevent losing the group(s) (*)',
+          indent: 2,
+          type: 'string',
+          conditions: [
+            {
+              field: 'override',
+              value: 1
+            }
+          ]
         }
       ]
     },
@@ -457,6 +559,25 @@ function (SinusBot, config) {
       output = makeArray(output)
       return output
     }
+    
+    function getOverride(current,user) {
+      if (current.override == 1) {
+        if (oklib.client.isMemberOfGroup(user, current.overrideGroup)) {
+          return true;
+        }
+      } else {
+        if (current.overrideGroupsCondition == 0) {
+          if (oklib.client.isMemberOfAll(user, makeArray(current.overrideGroups))) {
+            return true;
+          }
+        } else {
+          if (oklib.client.isMemberOfOne(user, makeArray(current.overrideGroups))) {
+            return true;
+          }
+        }
+      }
+      return false;
+    }
 
     function getMainGroupName (input) {
       var output = '['
@@ -496,6 +617,12 @@ function (SinusBot, config) {
       for (var i in groupAddArray) {
         toCheck = groupAddArray[i]
         mainGroup = getMainGroupAdd(toCheck)
+        
+        if(toCheck.override != 2) {
+          if (getOverride(toCheck,user)){
+            continue
+          }
+        }
 
         if (toCheck.onWhatAdd == 0) {
           if (toCheck.addOnAddCondition == 0) {
@@ -530,6 +657,12 @@ function (SinusBot, config) {
       for (var j in groupRemoveArray) {
         toCheck = groupRemoveArray[j]
         mainGroup = getMainGroupRemove(toCheck)
+        
+        if(toCheck.override != 2) {
+          if (getOverride(toCheck,user)){
+             continue
+          }
+        }
 
         if (toCheck.onWhatRemove == 0) {
           if (toCheck.removeOnAddCondition == 0) {
@@ -571,6 +704,12 @@ function (SinusBot, config) {
       for (var i in groupAddArray) {
         toCheck = groupAddArray[i]
         mainGroup = getMainGroupAdd(toCheck)
+        
+        if(toCheck.override != 2) {
+          if (getOverride(toCheck,user)){
+            continue
+          }
+        }
 
         if (toCheck.onWhatAdd == 1) {
           if (toCheck.addOnRemoveCondition == 0) {
@@ -605,6 +744,12 @@ function (SinusBot, config) {
       for (var j in groupRemoveArray) {
         toCheck = groupRemoveArray[j]
         mainGroup = getMainGroupRemove(toCheck)
+        
+        if(toCheck.override != 2) {
+          if (getOverride(toCheck,user)){
+            continue;
+          };
+        }
 
         if (toCheck.onWhatRemove == 1) {
           if (toCheck.removeOnRemoveCondition == 0) {
