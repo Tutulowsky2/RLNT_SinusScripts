@@ -12,7 +12,7 @@ registerPlugin({
   name: 'Automated Server Groups',
   author: 'RLNT <RLNT@damn-community.com>',
   description: 'With this script, the bot will automatically assign or remove groups if the client gets or is removed from a servergroup.',
-  version: '1.1.5',
+  version: '1.2.0',
   backends: ['ts3'],
   vars: [
     {
@@ -200,19 +200,23 @@ registerPlugin({
         },
         {
           name: 'override',
-          title: 'Should there be override groups? (*)',
+          title: 'Should there be groups that prevent the user from getting the group(s)? (*)',
           indent: 1,
           type: 'select',
-          options: [ 'Multiple', 'Single', 'No' ]
+          options: [
+            'Multiple',
+            'Single',
+            'No'
+          ]
         },
         {
           name: 'overrideGroupsCondition',
-          title: 'Are they all needed to to override the rule? (*)',
+          title: 'Are they all needed to prevent the user from getting the group(s)? (*)',
           indent: 2,
           type: 'select',
           options: [
-            'Having all these groups overrides this rule',
-            'Having any these groups overrides this rule'
+            'The user needs all groups to prevent getting the group(s)',
+            'The user needs any of these groups to prevent getting the group(s)'
           ],
           conditions: [
             {
@@ -223,7 +227,7 @@ registerPlugin({
         },
         {
           name: 'overrideGroups',
-          title: 'Groups that override this rule (*)',
+          title: 'Groups that are required to prevent getting the group(s) (*)',
           indent: 2,
           type: 'strings',
           conditions: [
@@ -235,7 +239,7 @@ registerPlugin({
         },
         {
           name: 'overrideGroup',
-          title: 'Group that overrides this rule (*)',
+          title: 'Group that is required to prevent getting the group(s) (*)',
           indent: 2,
           type: 'string',
           conditions: [
@@ -426,21 +430,25 @@ registerPlugin({
             }
           ]
         },
-        {
+{
           name: 'override',
-          title: 'Should there be override groups? (*)',
+          title: 'Should there be groups that prevent the user from losing the group(s)? (*)',
           indent: 1,
           type: 'select',
-          options: [ 'Multiple', 'Single', 'No' ]
+          options: [
+            'Multiple',
+            'Single',
+            'No'
+          ]
         },
         {
           name: 'overrideGroupsCondition',
-          title: 'Are they all needed to to override the rule? (*)',
+          title: 'Are they all needed to prevent the user from losing the group(s)? (*)',
           indent: 2,
           type: 'select',
           options: [
-            'Having all these groups overrides this rule',
-            'Having any these groups overrides this rule'
+            'The user needs all groups to prevent losing the group(s)',
+            'The user needs any of these groups to prevent losing the group(s)'
           ],
           conditions: [
             {
@@ -451,7 +459,7 @@ registerPlugin({
         },
         {
           name: 'overrideGroups',
-          title: 'Groups that override this rule (*)',
+          title: 'Groups that are required to prevent losing the group(s) (*)',
           indent: 2,
           type: 'strings',
           conditions: [
@@ -463,7 +471,7 @@ registerPlugin({
         },
         {
           name: 'overrideGroup',
-          title: 'Group that overrides this rule (*)',
+          title: 'Group that is required to prevent losing the group(s) (*)',
           indent: 2,
           type: 'string',
           conditions: [
@@ -610,10 +618,10 @@ function (SinusBot, config) {
         toCheck = groupAddArray[i]
         mainGroup = getMainGroupAdd(toCheck)
         
-        if(!(toCheck.override == 2)){
+        if(toCheck.override != 2) {
           if (getOverride(toCheck,user)){
-            continue;
-          };
+            continue
+          }
         }
 
         if (toCheck.onWhatAdd == 0) {
@@ -650,10 +658,10 @@ function (SinusBot, config) {
         toCheck = groupRemoveArray[j]
         mainGroup = getMainGroupRemove(toCheck)
         
-        if(!(toCheck.override == 2)){
+        if(toCheck.override != 2) {
           if (getOverride(toCheck,user)){
-             continue;
-          };
+             continue
+          }
         }
 
         if (toCheck.onWhatRemove == 0) {
@@ -697,10 +705,10 @@ function (SinusBot, config) {
         toCheck = groupAddArray[i]
         mainGroup = getMainGroupAdd(toCheck)
         
-        if(!(toCheck.override == 2)){
+        if(toCheck.override != 2) {
           if (getOverride(toCheck,user)){
-            continue;
-          };
+            continue
+          }
         }
 
         if (toCheck.onWhatAdd == 1) {
@@ -737,7 +745,7 @@ function (SinusBot, config) {
         toCheck = groupRemoveArray[j]
         mainGroup = getMainGroupRemove(toCheck)
         
-        if(!(toCheck.override == 2)){
+        if(toCheck.override != 2) {
           if (getOverride(toCheck,user)){
             continue;
           };
